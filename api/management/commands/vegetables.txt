@@ -1,0 +1,31 @@
+artichoke
+asparagus
+aubergine
+beet
+beetroot
+bell pepper
+broccoli
+Brussels sprout
+cabbage
+carrot
+cauliflower
+celery
+corn
+courgette
+cucumber
+eggplant
+green bean
+green onion
+leek
+lettuce
+mushroom
+onion
+pea
+pepper
+potato
+pumpkin
+radish
+spring onion
+squash
+sweet
+zucchini
