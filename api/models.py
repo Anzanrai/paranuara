@@ -1,7 +1,10 @@
+import uuid
+
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
+from api.utils import url_id_gen
 
 
 class Company(models.Model):
@@ -15,9 +18,9 @@ class Company(models.Model):
 
 class People(models.Model):
     GENDER_CHOICES = [("male", "male"), ("female", "female")]
-    # _id = models.UUIDField(primary_key=True)
+    _id = models.CharField(max_length=24, default=url_id_gen)
     index = models.IntegerField(unique=True, blank=False, null=False)
-    guid = models.UUIDField(blank=False, null=False)
+    guid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     has_died = models.BooleanField(default=False, blank=False, null=False)
     balance = models.CharField(blank=False, null=False, max_length=20)
     age = models.IntegerField(blank=False, null=False)
@@ -32,18 +35,18 @@ class People(models.Model):
     registered = models.DateTimeField(blank=False, null=False)
     tags = ArrayField(models.CharField(blank=True, null=True, max_length=30), size=30, blank=True, null=True)
     # friends = ArrayField(models.BigIntegerField(blank=True, null=True), blank=True, null=True)
-    greeting = models.CharField(max_length=200)
+    greeting = models.CharField(max_length=200, blank=True)
     favourite_fruit = ArrayField(models.CharField(max_length=20, blank=True, null=True), size=20, blank=True, null=True)
     favourite_vegetable = ArrayField(models.CharField(max_length=20, blank=True, null=True), size=20, blank=True, null=True)
     picture = models.CharField(max_length=300, blank=True, null=True)
 
     def __str__(self):
-        return self.name + " " + str(self.id)
+        return self.name
 
 
 class Friend(models.Model):
-    people_id = models.ForeignKey(People, on_delete=models.CASCADE, related_name='employee')
-    friends = ArrayField(models.IntegerField(blank=True, null=True), blank=True, null=True)
+    people_id = models.CharField(max_length=120)
+    friends = ArrayField(models.IntegerField(blank=True), blank=True)
 
     # def __str__(self):
     #     employee = People.objects.get(id=self.people_id)
