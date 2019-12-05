@@ -36,8 +36,6 @@ class CompanyApiTestCase(APITestCase):
         response = self.client.post(url, company_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Company.objects.count(), 3)
-        self.assertEqual(Company.objects.get(id=3).index, 2)
-        self.assertEqual(Company.objects.get(id=3).company, "Test Company 2")
 
     def test_002_company_api_400_on_creation_with_faulty_data(self):
         companies_data = [

@@ -1,13 +1,15 @@
 ## setup the environment
 - clone the repo
-    - git clone 
+    - `git clone git@github.com:Anzanrai/paranuara.git`
 - I prefer setting up a separate virtual environment for every project I work on. So, install virtaulenv.
+    - `sudo apt-get update`
+    - `sudo apt-get install virtualenv`
 - create a new virtual environment with python3 as default
-    - command: virtualenv -p python3 <environment_name>
+    - command: `virtualenv -p python3 <environment_name>`
 - activate the virtual environment
-    - command: source <path_to_virtual_env>/<environment_name>/bin/activate
+    - command: `source <path_to_virtual_env>/<environment_name>/bin/activate`
 - change the directory to project root directory, and install the requirements with the help of requirements file.
-    - command: pip3 install -r requirements.txt
+    - command: `pip3 install -r requirements.txt`
 - for this app, postgres database was used and settings of the django project has been updated accordingly
     - for postgres installation and database setup, please follow the steps from 
         #### Install the Components from the Ubuntu Repositories
@@ -35,6 +37,7 @@
     
 - run server with the command  `python3 manage.py runserver` 
 
+
 ## api endpoints
 
 ### http://localhost:8000/api/employees/?company=<company_id>
@@ -48,3 +51,6 @@ have brown eyes and are still alive.
 ### http://localhost:8000/api/employees/?employee=<index>/
 Given 1 people, provide a list of fruits and vegetables they like. This endpoint must respect this interface for the 
 output: `{"username": "Ahi", "age": "30", "fruits": ["banana", "apple"], "vegetables": ["beetroot", "lettuce"]}`
+
+## test execution
+- run the command `python3 manage.py test`
