@@ -1,0 +1,164 @@
+[
+  {
+    "index": 1,
+    "has_died": true,
+    "balance": "$2,418.59",
+    "age": 61,
+    "eyeColor": "blue",
+    "name": "Carmella Lambert",
+    "gender": "female",
+    "company_id": 1,
+    "email": "carmellalambert@earthmark.com",
+    "phone": "+1 (910) 567-3630",
+    "address": "628 Sumner Place, Sperryville, American Samoa, 9819",
+    "registered": "2016-07-13T12:29:07 -10:00",
+    "tags": [
+      "id",
+      "quis",
+      "ullamco",
+      "consequat",
+      "laborum",
+      "sint",
+      "velit"
+    ],
+    "friends": [
+      {
+        "index": 0
+      },
+      {
+        "index": 2
+      }
+    ],
+    "greeting": "Hello, Carmella Lambert! You have 6 unread messages.",
+    "favouriteFood": [
+      "orange",
+      "apple",
+      "banana",
+      "strawberry"
+    ]
+  },
+  {
+    "index": 1,
+    "has_died": false,
+    "balance": "$1,562.58",
+    "age": 60,
+    "eyeColor": "brown",
+    "name": "Anjan Rai",
+    "gender": "male",
+    "company_id": 1,
+    "email": "deckermckenzie@earthmark.com",
+    "phone": "+1 (893) 587-3311",
+    "address": "492 Stockton Street, Lawrence, Guam, 4854",
+    "registered": "2017-06-25T10:03:49 -10:00",
+    "tags": [
+      "veniam",
+      "irure",
+      "mollit",
+      "sunt",
+      "amet",
+      "fugiat",
+      "ex"
+    ],
+    "friends": [
+      {
+        "index": 0
+      },
+      {
+        "index": 1
+      },
+      {
+        "index": 2
+      }
+    ],
+    "greeting": "Hello, Decker Mckenzie! You have 2 unread messages.",
+    "favouriteFood": [
+      "cucumber",
+      "beetroot",
+      "carrot",
+      "celery"
+    ]
+  },
+  {
+    "index": 3,
+    "balance": "$2,119.44",
+    "age": 54,
+    "eyeColor": "blue",
+    "name": "Bonnie Bass",
+    "gender": "female",
+    "company_id": 1,
+    "email": "bonniebass@earthmark.com",
+    "phone": "+1 (823) 428-3710",
+    "address": "455 Dictum Court, Nadine, Mississippi, 6499",
+    "registered": "2017-06-08T04:23:18 -10:00",
+    "tags": [
+      "quis",
+      "sunt",
+      "sit",
+      "aliquip",
+      "pariatur",
+      "quis",
+      "nulla"
+    ],
+    "friends": [
+      {
+        "index": 0
+      },
+      {
+        "index": 1
+      },
+      {
+        "index": 2
+      }
+    ],
+    "greeting": "Hello, Bonnie Bass! You have 10 unread messages.",
+    "favouriteFood": [
+      "orange",
+      "beetroot",
+      "banana",
+      "strawberry"
+    ]
+  },
+  {
+    "index": 4,
+    "has_died": true,
+    "age": 30,
+    "eyeColor": "blue",
+    "name": "Rosemary Hayes",
+    "gender": "female",
+    "company_id": 1,
+    "email": "rosemaryhayes@earthmark.com",
+    "phone": "+1 (984) 437-3226",
+    "address": "130 Bay Parkway, Marshall, Virgin Islands, 298",
+    "registered": "2015-04-22T03:36:03 -10:00",
+    "tags": [
+      "officia",
+      "voluptate",
+      "aute",
+      "consequat",
+      "aliqua",
+      "do",
+      "magna"
+    ],
+    "friends": [
+      {
+        "index": 0
+      },
+      {
+        "index": 1
+      },
+      {
+        "index": 2
+      },
+      {
+        "index": 3
+      }
+    ],
+    "greeting": "Hello, Rosemary Hayes! You have 1 unread messages.",
+    "favouriteFood": [
+      "orange",
+      "apple",
+      "carrot",
+      "celery"
+    ]
+  }
+]

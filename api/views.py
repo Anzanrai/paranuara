@@ -3,7 +3,6 @@ import json
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from django.shortcuts import render
 
 # Create your views here.
 from rest_framework import viewsets, status
@@ -13,7 +12,6 @@ from rest_framework.response import Response
 from api.models import Company, People, Friend
 from api.serializers import CompanySerializer, CompanyEmployeeSerializer, CommonFriendSerializer, FriendSerializer, \
     EmployeeSerializer, FriendModelPostSerializer, CompanyEmployeePostSerializer
-from api.utils import categorize_food
 
 
 class CompanyViewSet(viewsets.ModelViewSet):
@@ -25,8 +23,7 @@ class CompanyViewSet(viewsets.ModelViewSet):
         if serializer.is_valid():
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
-            return Response(data={'body': ['Company added successfully.'], 'company': serializer.data}, status=status.HTTP_201_CREATED,
-                            headers=headers)
+            return Response(data={'body': serializer.data}, status=status.HTTP_201_CREATED, headers=headers)
         else:
             errors = serializer.errors
             if 'index' in errors:
@@ -42,7 +39,7 @@ class CompanyViewSet(viewsets.ModelViewSet):
         if serializer.is_valid():
             self.perform_update(serializer)
             headers = self.get_success_headers(serializer.data)
-            return Response(data={'body': ['Company updated successfully.']}, status=status.HTTP_200_OK, headers=headers)
+            return Response(data={'body': serializer.data}, status=status.HTTP_200_OK, headers=headers)
         else:
             errors = serializer.errors
             if request.data.get('index'):
@@ -65,7 +62,7 @@ class EmployeeViewSet(viewsets.ModelViewSet):
             if self.request.query_params.get('company'):
                 return People.objects.filter(company__id=self.request.query_params.get('company'))
             if self.request.query_params.get('employee'):
-                return People.objects.filter(id=self.request.query_params.get('employee'))
+                return People.objects.filter(index=self.request.query_params.get('employee'))
             return People.objects.all()
 
     def create(self, request, *args, **kwargs):
@@ -74,7 +71,10 @@ class EmployeeViewSet(viewsets.ModelViewSet):
         with transaction.atomic():
             if serializer.is_valid():
                 self.perform_create(serializer)
-                friends_data = json.loads(data['friends'])
+                if isinstance(data['friends'], str):
+                    friends_data = json.loads(data['friends'])
+                else:
+                    friends_data = data['friends']
                 data.pop('friends')
                 friends = []
                 for friend_data in friends_data:
@@ -83,10 +83,10 @@ class EmployeeViewSet(viewsets.ModelViewSet):
                 friend_serializer = FriendModelPostSerializer(data={'people_id': serializer.data.get('guid'), 'friends': friends})
                 if friend_serializer.is_valid():
                     self.perform_create(friend_serializer)
-                    return Response(data={'body': ['Employee added successfully.'], 'employee': serializer.data},
-                                    status=status.HTTP_201_CREATED)
+                    return Response(data={'body': serializer.data}, status=status.HTTP_201_CREATED)
                 else:
                     serializer.errors.update(friend_serializer.errors)
+                    return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             else:
                 errors = serializer.errors
                 return Response(data=errors, status=status.HTTP_400_BAD_REQUEST)
@@ -111,12 +111,11 @@ class EmployeeViewSet(viewsets.ModelViewSet):
                                                                   partial=True)
                     if friend_serializer.is_valid():
                         self.perform_update(friend_serializer)
+                        return Response(data={'body': serializer.data}, status=status.HTTP_200_OK)
                     else:
-                        serializer.errors.update(friend_serializer.errors)
                         return Response(data=friend_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-                headers = self.get_success_headers(serializer.data)
-                return Response(data={'body': ['Employee updated successfully.'], 'employee': serializer.data,
-                                      'friends': friend_serializer.data}, status=status.HTTP_200_OK, headers=headers)
+                else:
+                    return Response(data={'body':serializer.data}, status=status.HTTP_200_OK)
             else:
                 errors = serializer.errors
                 if request.data.get('index'):
@@ -129,11 +128,11 @@ def common_friend_view(request):
     employee_one_param = request.query_params.get('employee_one')
     employee_two_param = request.query_params.get('employee_two')
     try:
-        employee_one = People.objects.get(id=employee_one_param)
-        employee_two = People.objects.get(id=employee_two_param)
-        employee_one_friend = Friend.objects.get(people_id__id=employee_one_param)
+        employee_one = People.objects.get(index=employee_one_param)
+        employee_two = People.objects.get(index=employee_two_param)
+        employee_one_friend = Friend.objects.get(people_id=employee_one.guid)
         employee_one_friend_indices = set(employee_one_friend.friends)
-        employee_two_friend = Friend.objects.get(people_id__id=employee_two_param)
+        employee_two_friend = Friend.objects.get(people_id=employee_two.guid)
         employee_two_friend_indices = set(employee_two_friend.friends)
         common_friends = People.objects.filter(index__in=list(
             employee_one_friend_indices.intersection(employee_two_friend_indices)))

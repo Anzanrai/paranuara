@@ -25,19 +25,22 @@ class Command(BaseCommand):
             people_data = people_file.read()
         people = json.loads(people_data)
 
-        # for company in companies:
-        #     new_company = Company(**company)
-        #     new_company.save()
+        for company in companies:
+            new_company = Company(**company)
+            new_company.save()
 
         for person in people:
             # person = person.update({})
             with transaction.atomic():
                 employee_index = person.get("index")
-                friends = person.pop('friends')
                 friends_indices = []
-                for friend in friends:
-                    if friend.get("index") != employee_index:
-                        friends_indices.append(friend.get("index"))
+                if person.get('friends'):
+                    friends = person.pop('friends')
+
+                    for friend in friends:
+                        if friend.get("index") != employee_index:
+                            friends_indices.append(friend.get("index"))
+
                 if person.get('eyeColor'):
                     eye_color = person.pop('eyeColor')
                 if person.get('favouriteFood'):
@@ -45,9 +48,10 @@ class Command(BaseCommand):
                 # categorize food into fruits and vegetables using util function.
                 favourite_fruit, favourite_vegetable = categorize_food(favourite_food)
                 registered = "".join(person.pop('registered').split())
-                person.pop('about')
+                if person.get('about'):
+                    person.pop('about')
                 new_person = People(eye_color=eye_color, favourite_fruit=favourite_fruit, registered=registered,
                                     favourite_vegetable=favourite_vegetable, **person)
                 new_person.save()
-                friend_object = Friend(people_id=new_person, friends=friends_indices)
+                friend_object = Friend(people_id=new_person.guid, friends=friends_indices)
                 friend_object.save()
